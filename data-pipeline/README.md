@@ -1,0 +1,3 @@
+- Collect data
+- Data preprocessing (clean, transform)
+- Store data

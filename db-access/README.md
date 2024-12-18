@@ -1,0 +1,3 @@
+- Connection pool management
+- Query management
+- Transaction management

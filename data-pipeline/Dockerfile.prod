@@ -1,0 +1,15 @@
+# Fundamental image
+FROM python:3.10-slim
+
+# Configuration
+WORKDIR /data-pipeline
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Dependancies installation
+COPY requirements.txt /data-pipeline/requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# Copy sources
+COPY /data-pipeline/ /data-pipeline/src
+COPY /data-pipeline/config/ /data-pipeline/config
