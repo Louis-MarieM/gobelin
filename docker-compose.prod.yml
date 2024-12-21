@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   db:
     image: postgres:15
@@ -18,12 +17,10 @@ services:
     container_name: liquibase
     restart: on-failure:5
     environment:
-      LIQUIBASE_URL: jdbc:${DATABASE_URL}
-      LIQUIBASE_USERNAME: ${POSTGRES_USER}
-      LIQUIBASE_PASSWORD: ${POSTGRES_PASSWORD}
-      LIQUIBASE_CHANGELOG_FILE: /liquibase/changelog/db.changelog-master.yaml
+      LIQUIBASE_COMMAND_URL: ${DATABASE_URL}?user=${POSTGRES_USER}&password=${POSTGRES_PASSWORD}
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: changelog/changelog-master.xml
     volumes:
-      - ./db/migrations:/liquibase/changelog
+      - ./db/migrations/:/liquibase/changelog
     depends_on:
       - db
     entrypoint: ["sh", "-c", "liquibase update || echo 'Migration failed, retrying...'"]
