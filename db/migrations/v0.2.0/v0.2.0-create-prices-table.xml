@@ -1,0 +1,63 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+  <changeSet id="4" author="heleme">
+    <createTable tableName="prices">
+      <column name="id" type="bigserial">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="asset_id" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="market_id" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="timestamp" type="timestamp">
+        <constraints nullable="false"/>
+      </column>
+      <column name="interval" type="varchar(5)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="open_price" type="numeric(10,2)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="close_price" type="numeric(10,2)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="high_price" type="numeric(10,2)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="low_price" type="numeric(10,2)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="volume" type="numeric(20,2)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <!-- Constraints -->
+  <changeSet id="5" author="heleme">
+        <addForeignKeyConstraint
+            constraintName="fk_asset_id"
+            baseTableName="prices"
+            baseColumnNames="asset_id"
+            referencedTableName="assets"
+            referencedColumnNames="id"
+            onDelete="RESTRICT"/>
+    </changeSet>
+
+  <changeSet id="6" author="heleme">
+        <addForeignKeyConstraint
+            constraintName="fk_market_id"
+            baseTableName="prices"
+            baseColumnNames="market_id"
+            referencedTableName="markets"
+            referencedColumnNames="id"
+            onDelete="RESTRICT"/>
+    </changeSet>
+
+</databaseChangeLog>

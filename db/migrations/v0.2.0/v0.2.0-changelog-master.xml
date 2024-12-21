@@ -4,6 +4,8 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-
+  <include file="v0.2.0-create-markets-table.xml" relativeToChangelogFile="true"/>
+  <include file="v0.2.0-create-assets-table.xml" relativeToChangelogFile="true"/>
+  <include file="v0.2.0-create-prices-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

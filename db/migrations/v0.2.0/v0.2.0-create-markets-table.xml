@@ -1,0 +1,30 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+  <changeSet id="1" author="heleme">
+    <createTable tableName="markets">
+      <column name="id" type="serial">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="name" type="varchar(40)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="region" type="varchar(40)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="currency" type="varchar(3)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="source" type="varchar(40)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="added_at" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+</databaseChangeLog>
