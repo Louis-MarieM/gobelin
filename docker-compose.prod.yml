@@ -40,10 +40,15 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       LOG_LEVEL: ${LOG_LEVEL}
+      ACTIVE_TESTS: ${ACTIVE_TESTS}
     networks:
       - backend
-    entrypoint: python
-    command: -m src.main.main
+    entrypoint: /bin/sh
+    command: |
+      -c "
+      if [ \"$ACTIVE_TESTS\" = \"True\" ]; then
+        python -m pytest || exit 1;
+      fi;"
 
   data-pipeline:
     build:
@@ -55,9 +60,11 @@ services:
     depends_on:
       - db
       - liquibase
+      - db-access
     environment:
       DATABASE_URL: ${DATABASE_URL}
       LOG_LEVEL: ${LOG_LEVEL}
+      ACTIVE_TESTS: ${ACTIVE_TESTS}
     networks:
       - backend
     entrypoint: python

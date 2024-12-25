@@ -1,0 +1,4 @@
+debugpy
+pytest
+pytest-mock>=3.0.0
+SQLAlchemy

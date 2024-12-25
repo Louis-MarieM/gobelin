@@ -14,6 +14,7 @@ services:
     networks:
       - backend
 
+
   liquibase:
     image: liquibase/liquibase:4.23
     container_name: liquibase
@@ -29,27 +30,35 @@ services:
     networks:
       - backend
 
-  
+
   db-access:
     build:
       context: ./db-access
       dockerfile: Dockerfile.dev
     image: gobelin-db-access:${VERSION}
     container_name: db-access-dev
-    restart: always
-    volumes:
-      - ./db-access/src:/db-access/src
-      - ./db-access/config:/db-access/config
+    restart: on-failure:5
     depends_on:
       - db
       - liquibase
     environment:
       DATABASE_URL: ${DATABASE_URL}
       LOG_LEVEL: ${LOG_LEVEL}
+      ACTIVE_TESTS: ${ACTIVE_TESTS}
+    volumes:
+      - ./db-access/src:/db-access/src
+      - ./db-access/config:/db-access/config
+    ports:
+      - 5678:5678
     networks:
       - backend
-    entrypoint: python
-    command: -m src.main.main
+    entrypoint: /bin/sh
+    command: |
+      -c "
+      if [ \"$ACTIVE_TESTS\" = \"True\" ]; then
+        python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m pytest || exit 1;
+      fi;"
+
 
   data-pipeline:
     build:
@@ -61,14 +70,16 @@ services:
     depends_on:
       - db
       - liquibase
+      - db-access
     environment:
       DATABASE_URL: ${DATABASE_URL}
       LOG_LEVEL: ${LOG_LEVEL}
+      ACTIVE_TESTS: ${ACTIVE_TESTS}
     volumes:
       - ./data-pipeline/src:/data-pipeline/src
       - ./data-pipeline/config:/data-pipeline/config
     ports:
-      - 5678:5678
+      - 5679:5678
     networks:
       - backend
     entrypoint: python

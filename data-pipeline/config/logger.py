@@ -1,4 +1,5 @@
 import logging
+import os
 
 # Configuration globale unique du logger
 log_level = os.getenv("LOG_LEVEL", "INFO").upper()
