@@ -1,4 +1,4 @@
-from src.logger import logger
+from config.logger import logger
 
 logger.info("Hello from data-pipeline !")
 logger.debug("Debug log from data-pipeline !")
