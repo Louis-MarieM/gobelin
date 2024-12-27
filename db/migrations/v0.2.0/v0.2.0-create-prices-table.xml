@@ -6,7 +6,7 @@
 
   <changeSet id="4" author="heleme">
     <createTable tableName="prices">
-      <column name="id" type="bigserial">
+      <column name="id" type="serial">
         <constraints primaryKey="true" nullable="false"/>
       </column>
       <column name="asset_id" type="int">
