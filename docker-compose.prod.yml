@@ -17,7 +17,7 @@ services:
     container_name: liquibase
     restart: on-failure:5
     environment:
-      LIQUIBASE_COMMAND_URL: ${DATABASE_URL}?user=${POSTGRES_USER}&password=${POSTGRES_PASSWORD}
+      LIQUIBASE_COMMAND_URL: ${DATABASE_URL_JDBC}
       LIQUIBASE_COMMAND_CHANGELOG_FILE: changelog/changelog-master.xml
     volumes:
       - ./db/migrations/:/liquibase/changelog
@@ -38,9 +38,13 @@ services:
       - db
       - liquibase
     environment:
-      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_URL_SQLALCHEMY: ${DATABASE_URL_SQLALCHEMY}
       LOG_LEVEL: ${LOG_LEVEL}
       ACTIVE_TESTS: ${ACTIVE_TESTS}
+      POOL_SIZE: ${POOL_SIZE}
+      MAX_OVERFLOW: ${MAX_OVERFLOW}
+      POOL_TIMEOUT: ${POOL_TIMEOUT}
+      POOL_RECYCLE: ${POOL_RECYCLE}
     networks:
       - backend
     entrypoint: /bin/sh
@@ -62,7 +66,7 @@ services:
       - liquibase
       - db-access
     environment:
-      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_URL_SQLALCHEMY: ${DATABASE_URL_SQLALCHEMY}
       LOG_LEVEL: ${LOG_LEVEL}
       ACTIVE_TESTS: ${ACTIVE_TESTS}
     networks:

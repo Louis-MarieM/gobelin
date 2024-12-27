@@ -1,4 +1,5 @@
 debugpy
+psycopg2-binary
 pytest
 pytest-mock>=3.0.0
 SQLAlchemy
